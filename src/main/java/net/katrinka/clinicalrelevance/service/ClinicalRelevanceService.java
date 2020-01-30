@@ -1,32 +1,32 @@
 package net.katrinka.clinicalrelevance.service;
 
 import net.katrinka.clinicalrelevance.domain.ClinicalRelevance;
-import net.katrinka.clinicalrelevance.domain.OperationalRegion;
+import net.katrinka.clinicalrelevance.repository.ClinicalRelevanceRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class ClinicalRelevanceService {
     private static Logger log = LoggerFactory.getLogger(ClinicalRelevance.class);
-    private List<ClinicalRelevance> crs;
+    private ClinicalRelevanceRepository repository;
 
-    public ClinicalRelevanceService() {
-        crs = new ArrayList<>();
-        crs.add(new ClinicalRelevance("ALB", "CANINE", OperationalRegion.CENTRAL_EUROPE));
-        crs.add(new ClinicalRelevance("WBC", "CANINE", OperationalRegion.CENTRAL_EUROPE));
+    public ClinicalRelevanceService(ClinicalRelevanceRepository repository) {
+        this.repository = repository;
     }
 
-    public List<ClinicalRelevance> findAll() {
-        return crs;
+    public Iterable<ClinicalRelevance> findAll() {
+        return repository.findAll();
     }
 
-    public List<ClinicalRelevance> findByAssayCode(String assayCode) {
+    public Optional<ClinicalRelevance> findByAssayCode(String assayCode) {
         log.info("Looking for assay: {}", assayCode);
-        return crs.stream().filter(cr -> cr.getAssayCode().equalsIgnoreCase(assayCode)).collect(Collectors.toList());
+        return repository.findById(assayCode);
+    }
+
+    public void createClinicalRelevance(ClinicalRelevance clinicalRelevance) {
+        repository.save(clinicalRelevance);
     }
 }

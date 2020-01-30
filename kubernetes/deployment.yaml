@@ -1,0 +1,74 @@
+---
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "clinicalrelevance-api-config"
+  namespace: "default"
+  labels:
+    app: "clinicalrelevance-api"
+data:
+  spring_profiles_active: "sandbox"
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "clinicalrelevance-api"
+  namespace: "default"
+  labels:
+    app: "clinicalrelevance-api"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "clinicalrelevance-api"
+  template:
+    metadata:
+      labels:
+        app: "clinicalrelevance-api"
+    spec:
+      containers:
+        - name: "gdos-clinicalrelevance-sha256"
+          image: "gcr.io/gdos-mdonahue-sb/gdos-clinicalrelevance@sha256:450eb91bf4410fcecd773ea479c6040c16165e36cc29f76ab2a0cbec3086a969"
+          env:
+            - name: "spring_profiles_active"
+              valueFrom:
+                configMapKeyRef:
+                  key: "spring_profiles_active"
+                  name: "clinicalrelevance-api-config"
+---
+apiVersion: "autoscaling/v2beta1"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "clinicalrelevance-api-hpa"
+  namespace: "default"
+  labels:
+    app: "clinicalrelevance-api"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "clinicalrelevance-api"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        targetAverageUtilization: 80
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "clinicalrelevance-api-service"
+  namespace: "default"
+  labels:
+    app: "clinicalrelevance-api"
+spec:
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 8080
+  selector:
+    app: "clinicalrelevance-api"
+  type: "LoadBalancer"
+  loadBalancerIP: ""

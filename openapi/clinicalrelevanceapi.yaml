@@ -1,0 +1,29 @@
+swagger: '2.0'
+info:
+  title: 'GDOS Clinical Relevance'
+  version: "v1"
+  description: 'CR API'
+host: 'localhost'
+schemes:
+  - https
+  - http
+produces:
+  - application/json
+paths:
+  /clinicalrelevance:
+    get:
+      summary: Retrieves all of the data
+      operationId: findAll
+      responses:
+        200:
+          description: "Successful response"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/clinicalRelevance'
+    post:
+      summary: "Create a Clinical Relevance"
+      operationId: addClinicalRelevance
+      responses:
+        201:
+          description: "Resource Created"

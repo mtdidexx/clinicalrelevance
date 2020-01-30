@@ -1,13 +1,20 @@
 package net.katrinka.clinicalrelevance.controller;
 
 public class ClinicalRelevanceResource {
-    private String asayCode;
+    private String assayCode;
 
-    public ClinicalRelevanceResource(String asayCode) {
-        this.asayCode = asayCode;
+    public ClinicalRelevanceResource() {
     }
 
-    public String getAsayCode() {
-        return asayCode;
+    public void setAssayCode(String assayCode) {
+        this.assayCode = assayCode;
+    }
+
+    public ClinicalRelevanceResource(String assayCode) {
+        this.assayCode = assayCode;
+    }
+
+    public String getAssayCode() {
+        return assayCode;
     }
 }
