@@ -19,9 +19,9 @@ public class ClinicalrelevanceApplication {
 		application.addListeners((ApplicationListener< ApplicationReadyEvent>) event -> {
 			log.info("Application ready");
 			JedisConnectionFactory jcf = (JedisConnectionFactory) event.getApplicationContext().getBean("redisConnectionFactory");
-			log.info("Host name: {} - port: {}", jcf.getHostName(), jcf.getPort());
+			log.info("Redis Host name: {} - port: {}", jcf.getHostName(), jcf.getPort());
+			log.info("Pinging Redis: {}", jcf.getConnection().ping());
 		});
-
 		application.run(args);
 	}
 }

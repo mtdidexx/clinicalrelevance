@@ -12,7 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class SandboxConfiguration {
     @Bean
     public JedisConnectionFactory redisConnectionFactory() {
-        RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration("10.238.5.187");
+        RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration("10.79.26.235");
         return new JedisConnectionFactory(configuration);
     }
     @Bean
