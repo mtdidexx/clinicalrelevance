@@ -11,7 +11,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 
 @SpringBootApplication
 public class ClinicalrelevanceApplication {
-	private static Logger log = LoggerFactory.getLogger(ClinicalrelevanceApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(ClinicalrelevanceApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication application = new SpringApplication(ClinicalrelevanceApplication.class);

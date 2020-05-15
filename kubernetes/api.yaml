@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clinicalrelevance-api
+spec:
+  selector:
+    matchLabels:
+      app: clinicalrelevance-api
+  replicas: 2
+  template:
+    metadata:
+        labels:
+          app: clinicalrelevance-api
+    spec:
+      containers:
+        - name: clinicalrelevance-api
+          image: gcr.io/gdos-mdonahue-sb/gdos-clinicalrelevance@sha256:ac60a9f4c2108b2bdc5baee1dcf3798f5ec734eaa6c5f88f15f085174040faca
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "sandbox"
+          ports:
+            - containerPort: 8080

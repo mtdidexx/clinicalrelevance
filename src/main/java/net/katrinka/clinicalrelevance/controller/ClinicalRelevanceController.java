@@ -80,6 +80,11 @@ public class ClinicalRelevanceController {
         service.createClinicalRelevance(cr);
     }
 
+    @GetMapping("/coolstuff/{message}")
+    public String coolStuff(@PathVariable String message) {
+        return String.format("Cloud Run this: %s", message);
+    }
+
     private ClinicalRelevance convertFromResource(ClinicalRelevanceResource resource) {
         return new ClinicalRelevance(resource.getAssayCode(), "NOT_IMPLEMENTED", OperationalRegion.CENTRAL_EUROPE);
     }
