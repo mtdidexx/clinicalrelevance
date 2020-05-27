@@ -1,0 +1,4 @@
+steps:
+  - name: gradle:6.4.1-jdk14
+    entrypoint: gradle
+    args: ["build", "jib"]
