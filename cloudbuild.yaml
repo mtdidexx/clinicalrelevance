@@ -14,3 +14,5 @@ steps:
       - '--no-allow-unauthenticated'
       - '--platform'
       - 'managed'
+      - '--region'
+      - 'us-central1'
