@@ -9,8 +9,11 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.StreamingHttpOutputMessage;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -78,6 +81,20 @@ public class ClinicalRelevanceController {
         logger.info("Saving CR: {}", resource.getAssayCode());
         ClinicalRelevance cr = convertFromResource(resource);
         service.createClinicalRelevance(cr);
+    }
+
+    @PostMapping("/pubsub")
+    public ResponseEntity<String> consumeMessage(@RequestBody Body body) {
+        Body.Message message = body.getMessage();
+        if (message == null) {
+            String errorMessage = "Bad Request: invalid Pub/Sub message format";
+            logger.error(errorMessage);
+            return ResponseEntity.badRequest().body(errorMessage);
+        }
+        String data = message.getData();
+        String target = StringUtils.isEmpty(data) ? new String(Base64.getDecoder().decode(data)) : "XXX";
+        logger.info("Decoded data: {}", target);
+        return ResponseEntity.ok("OK");
     }
 
     @GetMapping("/coolstuff/{message}")
