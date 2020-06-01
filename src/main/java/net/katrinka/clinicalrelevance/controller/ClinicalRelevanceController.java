@@ -91,7 +91,9 @@ public class ClinicalRelevanceController {
             logger.error(errorMessage);
             return ResponseEntity.badRequest().body(errorMessage);
         }
+        logger.info("Message ID: {}", message.getMessageId());
         String data = message.getData();
+        logger.info("Raw data: {}", data);
         String target = StringUtils.isEmpty(data) ? new String(Base64.getDecoder().decode(data)) : "XXX";
         logger.info("Decoded data: {}", target);
         return ResponseEntity.ok("OK");
