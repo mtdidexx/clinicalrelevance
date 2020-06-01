@@ -8,7 +8,7 @@ steps:
       - 'deploy'
       - 'gdos-clinicalrelevance'
       - '--image'
-      - 'gcr.io/gdos-mdonahue-sb/gdos-clinicalrelevance:latest'
+      - 'gcr.io/gdos-mdonahue-sb/gdos-clinicalrelevance:$COMMIT_SHA'
       - '--set-env-vars'
       - 'SPRING_PROFILES_ACTIVE=sandbox'
       - '--no-allow-unauthenticated'
