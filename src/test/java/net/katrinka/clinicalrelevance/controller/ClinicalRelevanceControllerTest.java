@@ -1,33 +1,17 @@
 package net.katrinka.clinicalrelevance.controller;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static io.restassured.module.mockmvc.RestAssuredMockMvc.given;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ClinicalRelevanceControllerTest {
-    private ClinicalRelevanceController controller;
-
-    @BeforeEach
-    void setUp() {
-        controller = new ClinicalRelevanceController(null);
-    }
-
-    @AfterEach
-    void tearDown() {
-        controller = null;
-    }
-
     @Test
-    void findAll() {
-    }
-
-    @Test
-    void findByAssayCode() {
-    }
-
-    @Test
-    void findByAssayAndRegion() {
+    public void coolStuffSuccess() {
+        String response = given().standaloneSetup(new ClinicalRelevanceController(null))
+        .when().get("/coolstuff/Testaroo")
+        .then().status(HttpStatus.OK).extract().body().asString();
+        assertEquals("Cloud Run this: Testaroo", response);
     }
 }

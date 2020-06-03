@@ -7,9 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,6 +83,7 @@ public class ClinicalRelevanceController {
 
     @PostMapping("/pubsub")
     public ResponseEntity<String> consumeMessage(@RequestBody Body body) {
+        logger.info("raw input: {}", body);
         Body.Message message = body.getMessage();
         if (message == null) {
             String errorMessage = "Bad Request: invalid Pub/Sub message format";
@@ -94,7 +93,7 @@ public class ClinicalRelevanceController {
         logger.info("Message ID: {}", message.getMessageId());
         String data = message.getData();
         logger.info("Raw data: {}", data);
-        String target = StringUtils.isEmpty(data) ? new String(Base64.getDecoder().decode(data)) : "XXX";
+        String target = !StringUtils.isEmpty(data) ? new String(Base64.getDecoder().decode(data)) : "Message key is empty";
         logger.info("Decoded data: {}", target);
         return ResponseEntity.ok("OK");
     }
