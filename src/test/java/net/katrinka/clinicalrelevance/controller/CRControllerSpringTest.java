@@ -39,7 +39,7 @@ public class CRControllerSpringTest {
 
     @Test
     public void consumeFromPubSub() throws Exception {
-        JSONObject message = new JSONObject().put("messageId", "1234").put("data", Base64.getEncoder().encodeToString("Rockin' in the Free World".getBytes()));
+        JSONObject message = new JSONObject().put("messageId", "1234").put("data", Base64.getEncoder().encodeToString("{\"assayCode\": \"ALB\"}".getBytes()));
         JSONObject pubsubMessage = new JSONObject().put("message", message);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/pubsub")
         .contentType(MediaType.APPLICATION_JSON)
@@ -47,6 +47,6 @@ public class CRControllerSpringTest {
                 .content(pubsubMessage.toString()))
                 .andReturn();
         int status = result.getResponse().getStatus();
-        assertEquals(HttpStatus.SC_OK, status);
+        assertEquals(HttpStatus.SC_BAD_REQUEST, status);
     }
 }

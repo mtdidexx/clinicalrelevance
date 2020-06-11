@@ -1,5 +1,7 @@
 package net.katrinka.clinicalrelevance.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import net.katrinka.clinicalrelevance.domain.ClinicalRelevance;
 import net.katrinka.clinicalrelevance.domain.OperationalRegion;
 import net.katrinka.clinicalrelevance.service.ClinicalRelevanceService;
@@ -92,10 +94,22 @@ public class ClinicalRelevanceController {
         }
         logger.info("Message ID: {}", message.getMessageId());
         String data = message.getData();
-        logger.info("Raw data: {}", data);
         String target = !StringUtils.isEmpty(data) ? new String(Base64.getDecoder().decode(data)) : "Message key is empty";
         logger.info("Decoded data: {}", target);
+        ClinicalRelevance cr = null;
+        try {
+            cr = convertMessage(target);
+        } catch (JsonProcessingException e) {
+            logger.error("Error while parsing message data: {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+        service.createClinicalRelevance(cr);
         return ResponseEntity.ok("OK");
+    }
+
+    private ClinicalRelevance convertMessage(String target) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(target, ClinicalRelevance.class);
     }
 
     @GetMapping("/coolstuff/{message}")
