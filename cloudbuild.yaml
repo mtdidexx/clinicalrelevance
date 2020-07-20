@@ -1,14 +1,17 @@
 steps:
   - name: gradle:6.4.1-jdk14
     entrypoint: gradle
-    args: ["build", "jib"]
+    args:
+      - 'build'
+      - 'jib'
+      - '-PcommitSha=$COMMIT_SHA'
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - 'run'
       - 'deploy'
       - 'gdos-clinicalrelevance'
       - '--image'
-      - 'gcr.io/gdos-mdonahue-sb/gdos-clinicalrelevance:latest'
+      - 'gcr.io/gdos-mdonahue-sb/gdos-clinicalrelevance:$COMMIT_SHA'
       - '--set-env-vars'
       - 'SPRING_PROFILES_ACTIVE=sandbox'
       - '--no-allow-unauthenticated'
