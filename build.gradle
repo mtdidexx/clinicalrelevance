@@ -24,7 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-hateoas'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.4.6'
-	implementation 'redis.clients:jedis:3.3.0'
+	implementation 'redis.clients:jedis:3.5.0'
 	testImplementation "io.rest-assured:rest-assured-all:${property("restAssuredVersion")}"
 	testImplementation "io.rest-assured:spring-mock-mvc:${property("restAssuredVersion")}"
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
